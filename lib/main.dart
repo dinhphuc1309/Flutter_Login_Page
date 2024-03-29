@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:login_page/web_view_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,8 +35,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _sessionIdController = TextEditingController();
 
   final colorBlack = const Color(0xFF0F0F0F);
   final colorWhite = const Color(0xFFFBFBFB);
@@ -93,9 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: <Widget>[
                         TextFormField(
-                          controller: _usernameController,
+                          controller: _idController,
                           decoration: InputDecoration(
-                            hintText: 'Username',
+                            hintText: 'ID',
                             hintStyle: TextStyle(
                               fontSize: 16,
                               color: colorLightGrey,
@@ -113,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your username';
+                              return 'Please enter ID';
                             }
                             return null;
                           },
@@ -122,9 +123,9 @@ class _LoginPageState extends State<LoginPage> {
                           height: 12,
                         ),
                         TextFormField(
-                          controller: _passwordController,
+                          controller: _sessionIdController,
                           decoration: InputDecoration(
-                            hintText: 'Password',
+                            hintText: 'Session ID',
                             hintStyle: TextStyle(
                               fontSize: 16,
                               color: colorLightGrey,
@@ -143,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
+                              return 'Please enter Session ID';
                             }
                             return null;
                           },
@@ -155,12 +156,24 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: colorPrimary, // Màu nền của nút
+                  backgroundColor: colorPrimary,
                 ),
                 onPressed: () {
                   if (_formKey.currentState != null) {
                     if (_formKey.currentState!.validate()) {
-                      _showDialog('Login Success');
+                      final id = _idController.text;
+                      final sessionId = _sessionIdController.text;
+                      String url =
+                          'https://www.google.com.vn/?id=$id&session-id=$sessionId';
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WebViewPage(
+                            title: 'Google',
+                            url: url,
+                          ),
+                        ),
+                      );
                     }
                   }
                 },
