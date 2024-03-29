@@ -34,6 +34,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final titleWebView = 'Google';
+  final domainWebView = 'https://www.google.com.vn/';
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _sessionIdController = TextEditingController();
@@ -164,12 +166,12 @@ class _LoginPageState extends State<LoginPage> {
                       final id = _idController.text;
                       final sessionId = _sessionIdController.text;
                       String url =
-                          'https://www.google.com.vn/?id=$id&session-id=$sessionId';
+                          '$domainWebView?id=$id&session-id=$sessionId';
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => WebViewPage(
-                            title: 'Google',
+                            title: titleWebView,
                             url: url,
                           ),
                         ),
